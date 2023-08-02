@@ -15,7 +15,8 @@ function toErrorWithMessage(maybeError: unknown): ErrorWithMessage {
 	if (isErrorWithMessage(maybeError)) return maybeError;
 
 	try {
-		return new Error(JSON.stringify(maybeError));
+		if (typeof maybeError === "string") return new Error(maybeError);
+		else return new Error(JSON.stringify(maybeError));
 	} catch {
 		// fallback in case there's an error stringifying the maybeError
 		return new Error(String(maybeError));
