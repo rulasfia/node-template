@@ -4,23 +4,17 @@ import {
 	getProductHandler,
 	postProductHandler,
 	updateProductHandler,
-} from "./product.controller";
-import { postProductSchema, updateProductSchema } from "./product.schema";
-import { validatorMiddleware } from "~/middleware/validator.middleware";
+} from "./product.controllers";
+import { postProductSchema, updateProductSchema } from "./product.schemas";
+import { validator } from "~/middleware/validator.middleware";
 
-const api = new Hono();
+export function loadProductRoutes() {
+	const api = new Hono().basePath("/products");
 
-api.get("/", getProductHandler);
-api.post(
-	"/",
-	validatorMiddleware("json", postProductSchema),
-	postProductHandler,
-);
-api.put(
-	"/:id",
-	validatorMiddleware("json", updateProductSchema),
-	updateProductHandler,
-);
-api.delete("/:id", deleteProductHandler);
+	api.get("/", getProductHandler);
+	api.post("/", validator("json", postProductSchema), postProductHandler);
+	api.put("/:id", validator("json", updateProductSchema), updateProductHandler);
+	api.delete("/:id", deleteProductHandler);
 
-export default api;
+	return api;
+}

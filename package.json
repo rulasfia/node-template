@@ -2,8 +2,8 @@
   "name": "rulasfia-backend",
   "version": "0.0.1",
   "scripts": {
-    "dev": "tsx watch src/index.ts",
-    "start": "tsx src/index.ts",
+    "dev": "tsx watch src/main.ts",
+    "start": "tsx src/main.ts",
     "migrate:dev": "prisma migrate dev --schema=./db/schema.prisma"
   },
   "dependencies": {

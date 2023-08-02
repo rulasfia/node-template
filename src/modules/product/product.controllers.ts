@@ -1,12 +1,12 @@
 import { Context } from "hono";
-import type { PostProductType, UpdateProductType } from "./product.schema";
+import type { PostProductType, UpdateProductType } from "./product.schemas";
 import {
 	deleteProductById,
 	findAllProducts,
 	findProductById,
 	insertNewProduct,
 	updateProductById,
-} from "./product.repository";
+} from "./product.services";
 import { getErrorMessage } from "~/utils/errorHandler";
 import { generateID } from "~/utils/IDGenerator";
 

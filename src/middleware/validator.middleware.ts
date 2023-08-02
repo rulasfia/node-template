@@ -1,13 +1,10 @@
 import type { ValidationTargets } from "hono";
-import { validator } from "hono/validator";
+import { validator as honoValidator } from "hono/validator";
 import { ZodSchema } from "zod";
 import { getErrorMessage } from "~/utils/errorHandler";
 
-export function validatorMiddleware(
-	target: keyof ValidationTargets,
-	schema: ZodSchema,
-) {
-	return validator(target, (value, c) => {
+export function validator(target: keyof ValidationTargets, schema: ZodSchema) {
+	return honoValidator(target, (value, c) => {
 		const parsed = schema.safeParse(value);
 		if (!parsed.success) {
 			console.log("error: ", getErrorMessage(parsed.error));
