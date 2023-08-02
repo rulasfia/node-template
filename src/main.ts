@@ -1,11 +1,11 @@
 import "dotenv/config";
 import { serve } from "@hono/node-server";
+import loadConfig from "./config/env";
 import { createServer } from "./lib/server";
 import { connectToDatabase } from "./lib/db/database";
 import { logger } from "./lib/logger";
-import loadConfig from "./config/env";
 
-(async function main() {
+(function main() {
 	loadConfig();
 
 	connectToDatabase(process.env.DB_URL);
