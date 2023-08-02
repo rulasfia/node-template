@@ -1,4 +1,4 @@
-import { Context } from "hono";
+import type { Context } from "hono";
 import type { PostProductType, UpdateProductType } from "./product.schemas";
 import {
 	deleteProductById,
@@ -9,6 +9,7 @@ import {
 } from "./product.services";
 import { getErrorMessage } from "~/utils/errorHandler";
 import { generateID } from "~/utils/IDGenerator";
+import { logger } from "~/lib/logger";
 
 export async function getProductHandler(c: Context) {
 	try {
@@ -16,7 +17,7 @@ export async function getProductHandler(c: Context) {
 
 		return c.json({ data: products });
 	} catch (error) {
-		console.error(error);
+		logger.error(error);
 		return c.json({ message: getErrorMessage(error) }, 500);
 	}
 }
@@ -35,7 +36,7 @@ export async function postProductHandler(c: Context) {
 
 		return c.json({ message: "Product created!" }, 201);
 	} catch (error) {
-		console.error(error);
+		logger.error(error);
 		return c.json({ message: getErrorMessage(error) }, 500);
 	}
 }
@@ -54,7 +55,7 @@ export async function updateProductHandler(c: Context) {
 
 		return c.json({ message: "Product updated!" });
 	} catch (error) {
-		console.error(error);
+		logger.error(error);
 		return c.json({ message: getErrorMessage(error) }, 500);
 	}
 }
@@ -73,7 +74,7 @@ export async function deleteProductHandler(c: Context) {
 
 		return c.json({ message: "Product deleted!" });
 	} catch (error) {
-		console.error(error);
+		logger.error(error);
 		return c.json({ message: getErrorMessage(error) }, 500);
 	}
 }

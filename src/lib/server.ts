@@ -1,11 +1,11 @@
 import { Hono } from "hono";
-import { logger } from "hono/logger";
+import { loggerMiddleware } from "~/middleware/logger.middleware";
 import { loadProductRoutes } from "~/modules/product/product.routes";
 
 export function createServer() {
 	const app = new Hono();
 
-	app.use("*", logger());
+	app.use("*", loggerMiddleware);
 
 	app.get("/", (c) => c.json({ message: "Server running!" }));
 
