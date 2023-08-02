@@ -13,7 +13,14 @@ export function connectToDatabase(DB_URL: string | undefined) {
 
 	const dialect = new MysqlDialect({ pool: createPool(DB_URL) });
 
-	connection = new Kysely<DB>({ dialect });
+	connection = new Kysely<DB>({
+		dialect,
+		log: (e) => {
+			if (e.level === "query") {
+				logger.debug(`SQL: ${e.query.sql} - [${e.query.parameters.join(",")}]`);
+			}
+		},
+	});
 }
 
 export function db() {

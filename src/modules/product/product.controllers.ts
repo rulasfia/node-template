@@ -21,6 +21,18 @@ export async function getProductHandler(c: Context) {
 	}
 }
 
+export async function getProductDetailHandler(c: Context) {
+	try {
+		const id = c.req.param("id");
+
+		const product = await findProductById(id);
+
+		return c.json({ data: product });
+	} catch (error) {
+		logger.error(error);
+		return c.json({ message: getErrorMessage(error) }, 500);
+	}
+}
 export async function postProductHandler(c: Context) {
 	try {
 		const body = await c.req.json<PostProductType>();

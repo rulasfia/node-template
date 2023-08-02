@@ -5,10 +5,8 @@ import { getPath } from "~/utils/url";
 /** function for logging http request */
 export async function loggerMiddleware(c: Context, next: Next) {
 	const { method } = c.req;
-	console.log("req", c.req.raw);
 	const path = getPath(c.req.raw);
 
-	console.log("path", path);
 	log(LogPrefix.Incoming, method, path);
 
 	const start = Date.now();

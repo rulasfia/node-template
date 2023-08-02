@@ -1,6 +1,7 @@
 import { Hono } from "hono";
 import {
 	deleteProductHandler,
+	getProductDetailHandler,
 	getProductHandler,
 	postProductHandler,
 	updateProductHandler,
@@ -12,6 +13,7 @@ export function loadProductRoutes() {
 	const api = new Hono().basePath("/products");
 
 	api.get("/", getProductHandler);
+	api.get("/:id", getProductDetailHandler);
 	api.post("/", validator("json", postProductSchema), postProductHandler);
 	api.put("/:id", validator("json", updateProductSchema), updateProductHandler);
 	api.delete("/:id", deleteProductHandler);
