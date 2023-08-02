@@ -2,7 +2,7 @@ module.exports = {
 	root: true,
 	extends: [
 		"eslint:recommended",
-		"plugin:@typescript-eslint/recommended",
+		"plugin:@typescript-eslint/recommended-type-checked",
 		"prettier",
 	],
 	parser: "@typescript-eslint/parser",
@@ -14,7 +14,8 @@ module.exports = {
 	rules: {
 		"@typescript-eslint/no-unused-vars": "error",
 		"@typescript-eslint/no-explicit-any": "error",
-		"@typescript-eslint/explicit-module-boundary-types": "error",
+		"@typescript-eslint/consistent-type-exports": "error",
+		"@typescript-eslint/consistent-type-imports": "error",
 		"no-mixed-spaces-and-tabs": ["error", "smart-tabs"],
 	},
 };

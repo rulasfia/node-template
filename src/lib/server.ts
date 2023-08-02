@@ -1,8 +1,8 @@
-import { Hono } from "hono";
+import { type Env, Hono } from "hono";
 import { loggerMiddleware } from "~/middleware/logger.middleware";
 import { loadProductRoutes } from "~/modules/product/product.routes";
 
-export function createServer() {
+export function createServer(): Hono<Env, unknown, "/"> {
 	const app = new Hono();
 
 	app.use("*", loggerMiddleware);

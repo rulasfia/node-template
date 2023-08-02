@@ -8,7 +8,6 @@ import {
 	updateProductById,
 } from "./product.services";
 import { getErrorMessage } from "~/utils/errorHandler";
-import { generateID } from "~/utils/IDGenerator";
 import { logger } from "~/lib/logger";
 
 export async function getProductHandler(c: Context) {
@@ -25,14 +24,8 @@ export async function getProductHandler(c: Context) {
 export async function postProductHandler(c: Context) {
 	try {
 		const body = await c.req.json<PostProductType>();
-		const id = await generateID();
 
-		await insertNewProduct({
-			...body,
-			created_at: new Date(),
-			updated_at: new Date(),
-			id,
-		});
+		await insertNewProduct(body);
 
 		return c.json({ message: "Product created!" }, 201);
 	} catch (error) {
@@ -48,10 +41,7 @@ export async function updateProductHandler(c: Context) {
 
 		if (!id) throw new Error("Invalid id!");
 
-		await updateProductById(id, {
-			...body,
-			updated_at: new Date(),
-		});
+		await updateProductById(id, body);
 
 		return c.json({ message: "Product updated!" });
 	} catch (error) {

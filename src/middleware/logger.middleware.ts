@@ -27,7 +27,7 @@ function humanize(times: string[]) {
 	const [delimiter, separator] = [",", "."];
 
 	const orderTimes = times.map((v) =>
-		v.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1" + delimiter)
+		v.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1" + delimiter),
 	);
 
 	return orderTimes.join(separator);
@@ -47,10 +47,10 @@ function log(
 	method: string,
 	path: string,
 	status: number = 0,
-	elapsed?: string
+	elapsed?: string,
 ) {
 	const out =
-		prefix === LogPrefix.Incoming
+		prefix === LogPrefix.Incoming.toString()
 			? `  ${prefix} ${method} ${path}`
 			: `  ${prefix} ${method} ${path} [${status}] ${elapsed}`;
 

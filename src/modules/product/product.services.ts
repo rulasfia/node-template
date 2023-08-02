@@ -1,10 +1,17 @@
-import { Insertable, Selectable, Updateable } from "kysely";
+import type { Insertable, Selectable, Updateable } from "kysely";
+import type { DB } from "~/lib/db/database.types";
 import { db } from "~/lib/db/database";
-import { DB } from "~/lib/db/database.types";
+import { generateID } from "~/utils/IDGenerator";
 
 export type Product = Selectable<DB["products"]>;
-export type NewProduct = Insertable<DB["products"]>;
-export type EditedProduct = Omit<Updateable<DB["products"]>, "id">;
+export type NewProduct = Omit<
+	Insertable<DB["products"]>,
+	"id" | "created_at" | "updated_at"
+>;
+export type EditedProduct = Omit<
+	Updateable<DB["products"]>,
+	"id" | "updated_at"
+>;
 
 export async function findAllProducts() {
 	return await db()
@@ -24,26 +31,30 @@ export async function findProductById(id: Product["id"]) {
 }
 
 export async function insertNewProduct(newProduct: NewProduct) {
-	return await db()
+	const id = await generateID();
+
+	await db()
 		.insertInto("products")
-		.values(newProduct)
-		.executeTakeFirstOrThrow();
+		.values({
+			id,
+			created_at: new Date(),
+			updated_at: new Date(),
+			...newProduct,
+		})
+		.execute();
 }
 
 export async function updateProductById(
 	id: Product["id"],
-	updatedProduct: EditedProduct
+	updatedProduct: EditedProduct,
 ) {
-	return await db()
+	await db()
 		.updateTable("products")
-		.set(updatedProduct)
+		.set({ updated_at: new Date(), ...updatedProduct })
 		.where("products.id", "=", id)
 		.execute();
 }
 
 export async function deleteProductById(id: Product["id"]) {
-	return await db()
-		.deleteFrom("products")
-		.where("products.id", "=", id)
-		.execute();
+	await db().deleteFrom("products").where("products.id", "=", id).execute();
 }

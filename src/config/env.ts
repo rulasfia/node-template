@@ -15,6 +15,7 @@ export default function loadConfig() {
 }
 
 declare global {
+	// eslint-disable-next-line @typescript-eslint/no-namespace
 	namespace NodeJS {
 		interface ProcessEnv extends z.infer<typeof envSchema> {}
 	}
